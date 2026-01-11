@@ -1,0 +1,17 @@
+name: DevOps Lab First Run
+on: push # Запуск при каждом пуше кода
+
+jobs:
+  check-runner:
+    runs-on: self-hosted # Это заставляет задачу бежать на вашем сервере
+    steps:
+      - name: Who am I?
+        run: |
+          echo "Привет! Я работаю на сервере: $(hostname)"
+          echo "Текущее время в лабе: $(date)"
+          
+      - name: Docker Test
+        run: |
+          docker --version
+          docker ps
+          echo "Доступ к Docker на хосте подтвержден!"
