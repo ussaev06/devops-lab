@@ -12,6 +12,19 @@ jobs:
         run: |
           echo "FROM alpine" > Dockerfile
           echo "RUN echo 'Hello from My Lab' > /hello.txt" >> Dockerfile
+               
+      - name: Login and Push to Harbor
+        run: |
+          HARBOR_IP="192.168.3.149:80"
+          IMAGE_NAME="devops-lab/test-image:latest"
+          
+          # Логинимся (используйте логин/пароль от Harbor, который вы создали)
+          echo "Millione123!" | docker login $HARBOR_IP -u admin --password-stdin
+          
+          # Сборка и Пуш
+          docker build -t $HARBOR_IP/$IMAGE_NAME .
+          docker push $HARBOR_IP/$IMAGE_NAME
+
 
       - name: Build and Push to Harbor
         run: |
