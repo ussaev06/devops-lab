@@ -19,7 +19,7 @@ jobs:
           IMAGE_NAME="devops-lab/test-image:latest"
           
           # Логинимся (используйте логин/пароль от Harbor, который вы создали)
-          echo "Millione123!" | docker login $HARBOR_IP -u admin --password-stdin
+          echo "Test123!" | docker login $HARBOR_IP -u admin --password-stdin
           
           # Сборка и Пуш
           docker build -t $HARBOR_IP/$IMAGE_NAME .
