@@ -1,17 +1,26 @@
-name: DevOps Lab First Run
-on: push # Запуск при каждом пуше кода
+name: Harbor Push Test
+on: push
 
 jobs:
-  check-runner:
-    runs-on: self-hosted # Это заставляет задачу бежать на вашем сервере
+  build-and-push:
+    runs-on: self-hosted
     steps:
-      - name: Who am I?
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Dummy Dockerfile
         run: |
-          echo "Привет! Я работаю на сервере: $(hostname)"
-          echo "Текущее время в лабе: $(date)"
+          echo "FROM alpine" > Dockerfile
+          echo "RUN echo 'Hello from My Lab' > /hello.txt" >> Dockerfile
+
+      - name: Build and Push to Harbor
+        run: |
+          # Переменные для удобства (замените IP на ваш Сервер №2)
+          HARBOR_IP="IP_СЕРВЕРА_2:80"
+          IMAGE_NAME="devops-lab/test-image:latest"
           
-      - name: Docker Test
-        run: |
-          docker --version
-          docker ps
-          echo "Доступ к Docker на хосте подтвержден!"
+          # Сборка
+          docker build -t $HARBOR_IP/$IMAGE_NAME .
+          
+          # Пуш (сработает без логина, так как проект Public)
+          docker push $HARBOR_IP/$IMAGE_NAME
