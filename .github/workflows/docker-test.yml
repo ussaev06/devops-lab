@@ -17,24 +17,11 @@ jobs:
       - name: Login and Push to Harbor
         run: |
           HARBOR_IP="192.168.3.149:80"
-          IMAGE_NAME="devops-lab/test-image:latest"
+          IMAGE_NAME="devops-lab/test-image:v1.0.1"
           
           # Логинимся (используйте логин/пароль от Harbor, который вы создали)
           echo "Test123!" | docker login $HARBOR_IP -u admin --password-stdin
           
           # Сборка и Пуш
           docker build -t $HARBOR_IP/$IMAGE_NAME .
-          docker push $HARBOR_IP/$IMAGE_NAME
-
-
-      - name: Build and Push to Harbor
-        run: |
-          # Переменные для удобства (замените IP на ваш Сервер №2)
-          HARBOR_IP="192.168.3.149:80"
-          IMAGE_NAME="devops-lab/test-image:latest"
-          
-          # Сборка
-          docker build -t $HARBOR_IP/$IMAGE_NAME .
-          
-          # Пуш (сработает без логина, так как проект Public)
           docker push $HARBOR_IP/$IMAGE_NAME
