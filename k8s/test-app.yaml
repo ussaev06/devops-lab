@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: my-first-app
 spec:
-  replicas: 4 # Запустим две копии приложения на разных воркерах
+  replicas: 2 # Запустим две копии приложения на разных воркерах
   selector:
     matchLabels:
       app: my-first-app
@@ -19,4 +19,4 @@ spec:
         ports:
           - containerPort: 80
       imagePullSecrets:
-      - name: harbor-registry-secret
+      - name: harbor-registry-secret # Тот самый секрет, который мы создали ранее
