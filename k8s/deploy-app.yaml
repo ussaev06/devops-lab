@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: my-first-app
 spec:
-  replicas: 3 # Запустим две копии приложения на разных воркерах
+  replicas: 4 # Запустим две копии приложения на разных воркерах
   selector:
     matchLabels:
       app: my-first-app
