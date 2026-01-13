@@ -8,10 +8,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create Dummy Dockerfile
+      - name: Create Real Dockerfile
         run: |
-          echo "FROM alpine" > Dockerfile
-          echo "RUN echo 'Hello from My Lab' > /hello.txt" >> Dockerfile
+          echo "FROM nginx:alpine" > Dockerfile
+          echo "RUN echo '<h1>Welcome to DevOps Lab 2026</h1>' > /usr/share/nginx/html/index.html" >> Dockerfile
+
                
       - name: Login and Push to Harbor
         run: |
