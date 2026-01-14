@@ -11,17 +11,30 @@ jobs:
       - name: Create Real Dockerfile
         run: |
           echo "FROM nginx:alpine" > Dockerfile
-          echo "RUN echo '<h1>Welcome to DevOps Lab 2026!!</h1>' > /usr/share/nginx/html/index.html" >> Dockerfile
+          echo "RUN echo '<h1>Welcome to DevOps Lab 2026!!!</h1>' > /usr/share/nginx/html/index.html" >> Dockerfile
 
                
-      - name: Login and Push to Harbor
+            - name: Login and Build
         run: |
-          HARBOR_IP="192.168.3.149:80"
-          IMAGE_NAME="devops-lab/test-image:v1.0.1"
+          HARBOR_IP="192.168.3.149"
+          # Используем номер запуска как тег (например, v1, v2, v3)
+          TAG="v${{ github.run_number }}"
+          IMAGE_NAME="devops-lab/test-image:$TAG"
           
-          # Логинимся (используйте логин/пароль от Harbor, который вы создали)
-          echo "Test123!" | docker login $HARBOR_IP -u admin --password-stdin
+          echo "Test123!" | docker login $HARBOR_IP:80 -u admin --password-stdin
+          docker build -t $HARBOR_IP:80/$IMAGE_NAME .
+          docker push $HARBOR_IP:80/$IMAGE_NAME
+
+      # ЭТОТ ШАГ САМ МЕНЯЕТ YAML
+      - name: Update Kubernetes resources
+        run: |
+          TAG="v${{ github.run_number }}"
+          # Меняем старый тег на новый прямо в файле
+          sed -i "s|image: 192.168.3.149:80/devops-lab/test-image:.*|image: 192.168.3.149:80/devops-lab/test-image:$TAG|g" test-app.yaml
           
-          # Сборка и Пуш
-          docker build -t $HARBOR_IP/$IMAGE_NAME .
-          docker push $HARBOR_IP/$IMAGE_NAME
+          # Коммитим изменения обратно в репозиторий
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add deployment.yaml
+          git commit -m "Update image tag to $TAG"
+          git push
