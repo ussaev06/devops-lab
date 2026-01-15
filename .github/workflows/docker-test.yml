@@ -11,7 +11,7 @@ jobs:
       - name: Create Real Dockerfile
         run: |
           echo "FROM nginx:alpine" > Dockerfile
-          echo "RUN echo '<h1>Welcome to DevOps Lab! https is working! </h1>' > /usr/share/nginx/html/index.html" >> Dockerfile
+          echo "RUN echo '<h1>Welcome to DevOps Lab!!! https is working! </h1>' > /usr/share/nginx/html/index.html" >> Dockerfile
 
                
       - name: Login and Build
