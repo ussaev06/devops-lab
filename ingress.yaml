@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lab-ingress
+  annotations:
+    # Говорим Traefik, что это обычный HTTP трафик
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+spec:
+  rules:
+  - host: app.lab           # Имя для вашего приложения
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hello-service # Имя вашего сервиса (проверьте через kubectl get svc)
+            port:
+              number: 80
+  - host: argo.lab          # Имя для самого ArgoCD
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: argocd-server
+            port:
+              number: 80
