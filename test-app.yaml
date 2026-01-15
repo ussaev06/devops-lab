@@ -15,7 +15,7 @@ spec:
       containers:
       - name: web-server
         # Укажите адрес вашего образа из Harbor
-        image: 192.168.3.149:80/devops-lab/test-image:v26
+        image: 192.168.3.149:80/devops-lab/test-image:v27
         ports:
           - containerPort: 80
       imagePullSecrets:
