@@ -6,11 +6,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: my-lab-app # ЭТОТ БЛОК НЕЛЬЗЯ УДАЛЯТЬ
+      app: my-first-app # ЭТОТ БЛОК НЕЛЬЗЯ УДАЛЯТЬ
   template:
     metadata:
       labels:
-        app: my-lab-app # ДОЛЖНО СОВПАДАТЬ С SELECTOR ВЫШЕ
+        app: my-first-app # ДОЛЖНО СОВПАДАТЬ С SELECTOR ВЫШЕ
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "80"
