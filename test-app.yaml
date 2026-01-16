@@ -19,7 +19,7 @@ spec:
         - name: harbor-registry-secret
       containers:
         - name: nginx
-          image: 192.168.3.149:80/devops-lab/test-image:latest
+          image: 192.168.3.149:80/devops-lab/test-image:v32
           imagePullPolicy: Always
           ports:
             - containerPort: 80
