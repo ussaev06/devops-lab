@@ -20,3 +20,10 @@ spec:
           - containerPort: 80
       imagePullSecrets:
       - name: harbor-registry-secret # Тот самый секрет, который мы создали ранее
+
+spec:
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "80" # Порт, на котором приложение отдает метрики
