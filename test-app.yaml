@@ -3,27 +3,24 @@ kind: Deployment
 metadata:
   name: my-first-app
 spec:
-  replicas: 3 # Запустим две копии приложения на разных воркерах
+  replicas: 2
   selector:
     matchLabels:
-      app: my-first-app
+      app: my-lab-app # ЭТОТ БЛОК НЕЛЬЗЯ УДАЛЯТЬ
   template:
     metadata:
       labels:
-        app: my-first-app
-    spec:
-      containers:
-      - name: web-server
-        # Укажите адрес вашего образа из Harbor
-        image: 192.168.3.149:80/devops-lab/test-image:v31
-        ports:
-          - containerPort: 80
-      imagePullSecrets:
-      - name: harbor-registry-secret # Тот самый секрет, который мы создали ранее
-
-spec:
-  template:
-    metadata:
+        app: my-lab-app # ДОЛЖНО СОВПАДАТЬ С SELECTOR ВЫШЕ
       annotations:
         prometheus.io/scrape: "true"
-        prometheus.io/port: "80" # Порт, на котором приложение отдает метрики
+        prometheus.io/port: "80"
+    spec:
+      imagePullSecrets:
+        - name: harbor-registry-secret
+      containers:
+        - name: nginx
+          image: 192.168.3.149:80/devops-lab/test-image:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+
